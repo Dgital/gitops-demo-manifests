@@ -11,13 +11,14 @@ spec:
   template:
     metadata:
       annotations:
-        envDescriptor: '{"apps":[],"latestVersion":null}'
+        envDescriptor: '{"apps":[{"name":"home","version":"189e701b29d9e050767aad9f439f3172bd73c3a1"},{"name":"kitchen","version":"189e701b29d9e050767aad9f439f3172bd73c3a1"},{"name":"livingroom","version":"189e701b29d9e050767aad9f439f3172bd73c3a1"}],"latestVersion":"189e701b29d9e050767aad9f439f3172bd73c3a1"}'
       labels:
         app: entry-envoy
     spec:
       containers:
         - env:
             - name: SERVICE_VERSION
+              value: 189e701b29d9e050767aad9f439f3172bd73c3a1
           image: ghcr.io/dgital/gitops-demo-entry-envoy:sha-8e29ef5102b943619948c4ae3aa7688628a0f514
           name: entry-envoy
           ports:
@@ -45,12 +46,6 @@ spec:
       name: http
       port: 80
       protocol: HTTP
-    - allowedRoutes:
-        namespaces:
-          from: Same
-      name: https
-      port: 443
-      protocol: HTTP
 ---
 apiVersion: flagger.app/v1beta1
 kind: Canary
@@ -59,16 +54,16 @@ metadata:
   namespace: gitops-demo-qa
 spec:
   analysis:
-    interval: 1s
+    interval: 10s
     maxWeight: 100
     metrics: []
     sessionAffinity:
       cookieName: flagger-cookie
       maxAge: 21600
-    stepWeight: 100
+    stepWeight: 10
     threshold: 5
     webhooks: []
-  progressDeadlineSeconds: 600
+  progressDeadlineSeconds: 1200
   service:
     gatewayRefs:
       - name: gitops-demo-gateway
