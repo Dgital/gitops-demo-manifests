@@ -3,6 +3,55 @@ kind: Deployment
 metadata:
   labels:
     app: home
+    version: 0c9be09455bf69880f6048b8fd4b6cfa8eaef26d
+  name: home-0c9be09455bf69880f6048b8fd4b6cfa8eaef26d
+  namespace: gitops-demo-qa
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: home
+      version: 0c9be09455bf69880f6048b8fd4b6cfa8eaef26d
+  template:
+    metadata:
+      labels:
+        app: home
+        version: 0c9be09455bf69880f6048b8fd4b6cfa8eaef26d
+    spec:
+      containers:
+        - env: []
+          image: ghcr.io/dgital/gitops-demo-home:sha-0c9be09455bf69880f6048b8fd4b6cfa8eaef26d
+          name: home-0c9be09455bf69880f6048b8fd4b6cfa8eaef26d
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 0m
+              memory: 64Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: home
+    version: 0c9be09455bf69880f6048b8fd4b6cfa8eaef26d
+  name: home-0c9be09455bf69880f6048b8fd4b6cfa8eaef26d
+  namespace: gitops-demo-qa
+spec:
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app: home
+    version: 0c9be09455bf69880f6048b8fd4b6cfa8eaef26d
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: home
     version: 189e701b29d9e050767aad9f439f3172bd73c3a1
   name: home-189e701b29d9e050767aad9f439f3172bd73c3a1
   namespace: gitops-demo-qa
@@ -75,10 +124,13 @@ spec:
       port: 80
   rules:
     - backendRefs:
-        - name: home-189e701b29d9e050767aad9f439f3172bd73c3a1
+        - name: home-0c9be09455bf69880f6048b8fd4b6cfa8eaef26d
           port: 80
       matches:
         - headers:
             - name: x-service-version
               type: Exact
-              value: 189e701b29d9e050767aad9f439f3172bd73c3a1
+              value: 0c9be09455bf69880f6048b8fd4b6cfa8eaef26d
+    - backendRefs:
+        - name: home-189e701b29d9e050767aad9f439f3172bd73c3a1
+          port: 80

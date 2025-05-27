@@ -11,14 +11,14 @@ spec:
   template:
     metadata:
       annotations:
-        envDescriptor: '{"apps":[{"name":"home","version":"189e701b29d9e050767aad9f439f3172bd73c3a1"},{"name":"kitchen","version":"189e701b29d9e050767aad9f439f3172bd73c3a1"},{"name":"livingroom","version":"189e701b29d9e050767aad9f439f3172bd73c3a1"}],"latestVersion":"189e701b29d9e050767aad9f439f3172bd73c3a1"}'
+        envDescriptor: '{"apps":[{"name":"home","version":"0c9be09455bf69880f6048b8fd4b6cfa8eaef26d"},{"name":"livingroom","version":"0c9be09455bf69880f6048b8fd4b6cfa8eaef26d"},{"name":"home","version":"189e701b29d9e050767aad9f439f3172bd73c3a1"},{"name":"kitchen","version":"189e701b29d9e050767aad9f439f3172bd73c3a1"},{"name":"livingroom","version":"189e701b29d9e050767aad9f439f3172bd73c3a1"}],"latestVersion":"0c9be09455bf69880f6048b8fd4b6cfa8eaef26d"}'
       labels:
         app: entry-envoy
     spec:
       containers:
         - env:
             - name: SERVICE_VERSION
-              value: 189e701b29d9e050767aad9f439f3172bd73c3a1
+              value: 0c9be09455bf69880f6048b8fd4b6cfa8eaef26d
           image: ghcr.io/dgital/gitops-demo-entry-envoy:sha-8e29ef5102b943619948c4ae3aa7688628a0f514
           name: entry-envoy
           ports:
