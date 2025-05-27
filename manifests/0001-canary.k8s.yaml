@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: entry-envoy
+  namespace: gitops-demo-staging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: entry-envoy
+  template:
+    metadata:
+      annotations:
+        envDescriptor: '{"apps":[],"latestVersion":null}'
+      labels:
+        app: entry-envoy
+    spec:
+      containers:
+        - env:
+            - name: SERVICE_VERSION
+          image: ghcr.io/dgital/gitops-demo-entry-envoy:sha-8e29ef5102b943619948c4ae3aa7688628a0f514
+          name: entry-envoy
+          ports:
+            - containerPort: 10000
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: entry-envoy
+  namespace: gitops-demo-staging
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
+  name: gitops-demo-gateway
+  namespace: gitops-demo-staging
+spec:
+  gatewayClassName: istio
+  listeners:
+    - allowedRoutes:
+        namespaces:
+          from: Same
+      name: http
+      port: 80
+      protocol: HTTP
+---
+apiVersion: flagger.app/v1beta1
+kind: Canary
+metadata:
+  name: entry-envoy
+  namespace: gitops-demo-staging
+spec:
+  analysis:
+    interval: 1s
+    maxWeight: 100
+    metrics: []
+    sessionAffinity:
+      cookieName: flagger-cookie
+      maxAge: 21600
+    stepWeight: 100
+    threshold: 5
+    webhooks: []
+  progressDeadlineSeconds: 1200
+  service:
+    gatewayRefs:
+      - name: gitops-demo-gateway
+        namespace: gitops-demo-staging
+    port: 80
+    targetPort: 10000
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: entry-envoy
