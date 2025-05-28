@@ -77,8 +77,3 @@ spec:
     - backendRefs:
         - name: kitchen-189e701b29d9e050767aad9f439f3172bd73c3a1
           port: 80
-      matches:
-        - headers:
-            - name: x-service-version
-              type: Exact
-              value: 189e701b29d9e050767aad9f439f3172bd73c3a1

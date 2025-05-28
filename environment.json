@@ -2,6 +2,14 @@
   "apps": [
     {
       "name": "home",
+      "version": "0c9be09455bf69880f6048b8fd4b6cfa8eaef26d"
+    },
+    {
+      "name": "livingroom",
+      "version": "0c9be09455bf69880f6048b8fd4b6cfa8eaef26d"
+    },
+    {
+      "name": "home",
       "version": "189e701b29d9e050767aad9f439f3172bd73c3a1"
     },
     {
@@ -13,5 +21,5 @@
       "version": "189e701b29d9e050767aad9f439f3172bd73c3a1"
     }
   ],
-  "latestVersion": "189e701b29d9e050767aad9f439f3172bd73c3a1"
+  "latestVersion": "0c9be09455bf69880f6048b8fd4b6cfa8eaef26d"
 }
